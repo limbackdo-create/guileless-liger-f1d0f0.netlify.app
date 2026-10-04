@@ -655,13 +655,16 @@
     </section>
   </main>
 
-  <!-- ==================== APPLY SECTION ==================== -->
+  <!-- ==================== APPLY & STATUS SECTION ==================== -->
   <section id="apply" style="background:linear-gradient(180deg,#0b1020,#141b34);color:#fff;font-family:inherit;padding:90px 0">
-   <div class="shell" style="max-width:640px;margin:0 auto;padding:0 24px">
-      <div style="background:rgba(16,39,65,.6);border:1px solid rgba(45,212,191,.25);border-radius:24px;padding:40px 32px;box-shadow:0 20px 60px rgba(0,0,0,.35)">
+   <div class="shell" style="max-width:1180px;margin:0 auto;padding:0 24px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:32px;align-items:start">
+      
+      <!-- [왼쪽] 협업 문의 신청 양식 -->
+      <div style="background:rgba(16,39,65,.6);border:1px solid rgba(45,212,191,.25);border-radius:24px;padding:36px 30px;box-shadow:0 20px 60px rgba(0,0,0,.35)">
         <div style="font-size:13px;letter-spacing:2px;font-weight:800;color:#ffca28;text-transform:uppercase;margin-bottom:8px">GET STARTED</div>
-        <h2 style="font-size:32px;font-weight:900;margin:0 0 10px;letter-spacing:-.5px">협업 · 무료 진단 신청</h2>
-        <p style="color:#aeb4ca;margin:0 0 24px;font-size:15px">신청하시면 확인 후 신속히 연락드립니다.</p>
+        <h2 style="font-size:28px;font-weight:900;margin:0 0 8px;letter-spacing:-.5px">협업 · 무료 진단 신청</h2>
+        <p style="color:#aeb4ca;margin:0 0 24px;font-size:14px">신청하시면 확인 후 신속히 연락드립니다.</p>
         
         <form id='ib-form' method='POST' name='inquiry' data-netlify="true" netlify-honeypot="bot-field" style='display:grid;gap:12px'>
          <input type="hidden" name="form-name" value="inquiry">
@@ -673,7 +676,7 @@
          <input type="email" name="이메일" id="ib-email" placeholder="이메일 주소" style="width:100%;box-sizing:border-box;padding:13px 15px;border:1px solid rgba(255,255,255,.18);border-radius:12px;font-size:14px;font-family:inherit;background:rgba(255,255,255,.06);color:#fff;outline:none">
          <textarea name="문의내용" id="ib-msg" rows="4" placeholder="어떤 도움이 필요하신가요? (선택)" style="width:100%;box-sizing:border-box;padding:13px 15px;border:1px solid rgba(255,255,255,.18);border-radius:12px;font-size:14px;font-family:inherit;background:rgba(255,255,255,.06);color:#fff;outline:none;resize:vertical"></textarea>
          <button type="submit" id="ib-btn" style="padding:14px 26px;border:none;border-radius:999px;font-weight:800;font-size:15px;cursor:pointer;background:linear-gradient(120deg,#ff5722,#ff8f00 55%,#ffca28);color:#0b1020">신청 보내기</button>
-         <div style="font-size:12px;color:#8890a6;margin-top:4px">신청 즉시 담당자에게 안전하게 전송되며 확인 후 신속히 연락드립니다.</div>
+         <div style="font-size:12px;color:#8890a6;margin-top:4px">신청 즉시 안전하게 접수되며 신속히 연락드립니다.</div>
         </form>
 
         <div id="ib-ok" style="display:none;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);border-radius:18px;padding:24px;text-align:center;margin-top:16px">
@@ -683,8 +686,57 @@
          <button type="button" onclick="document.getElementById('ib-form').reset();document.getElementById('ib-form').style.display='grid';document.getElementById('ib-ok').style.display='none'" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:#aeb4ca;padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer">추가 문의 작성</button>
         </div>
       </div>
+
+      <!-- [오른쪽] 실시간 접수 현황 (방안 1: 마스킹 소셜프루프 + 대표 원클릭 잠금해제) -->
+      <div id="inquiry-box" style="background:rgba(16,39,65,.6);border:1px solid rgba(45,212,191,.4);border-radius:24px;padding:36px 30px;box-shadow:0 20px 60px rgba(0,0,0,.35)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="font-size:13px;letter-spacing:2px;font-weight:800;color:var(--teal);text-transform:uppercase">REALTIME STATUS</div>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.35);color:#4ade80;font-size:11px;font-weight:700">
+            <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;display:inline-block"></span> 실시간 감지
+          </span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+          <h2 style="font-size:28px;font-weight:900;letter-spacing:-.5px">실시간 접수 현황</h2>
+          <span style="font-size:13px;color:var(--muted)">총 <b id="sideTotalCount" style="color:#ffca28">0</b>건</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+          <p id="inboxNoticeText" style="color:#aeb4ca;margin:0;font-size:13.5px">접수된 협업·상담 문의가 안전하게 등록됩니다.</p>
+          <button type="button" id="adminAuthBtn" onclick="toggleAdminAuth()" style="background:rgba(45,212,191,.12);border:1px solid rgba(45,212,191,.35);color:var(--teal);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:800;cursor:pointer;transition:.2s">🔒 대표 관리자 인증</button>
+        </div>
+
+        <!-- 문의 리스트 스크롤 영역 -->
+        <div id="sideInquiryList" style="max-height:430px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding-right:4px">
+          <div style="text-align:center;padding:40px 10px;color:var(--muted);font-size:13px">
+            ⏳ 접수 현황을 불러오는 중...
+          </div>
+        </div>
+
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+          <span id="footerPrivacyNote" style="font-size:11px;color:#94a3b8">🛡️ 개인정보 보호를 위해 고객 정보는 마스킹 처리되어 표시됩니다.</span>
+          <span style="font-size:11px;color:var(--muted)">15초 자동 갱신</span>
+        </div>
+      </div>
+
+    </div>
    </div>
   </section>
+
+  <!-- 관리자 보안 PIN 인증 모달 -->
+  <div id="adminPinModal" style="display:none;position:fixed;inset:0;background:rgba(4,15,29,.92);backdrop-filter:blur(10px);z-index:99999;align-items:center;justify-content:center;padding:20px">
+    <div style="background:#102741;border:1px solid rgba(45,212,191,.45);border-radius:24px;padding:36px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.7)">
+      <div style="font-size:2.8rem;margin-bottom:10px">🔐</div>
+      <h3 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:6px">대표 전용 관리자 인증</h3>
+      <p style="font-size:13px;color:#a8bdcb;line-height:1.5;margin-bottom:18px">고객 전체 연락처 및 상담 원문 열람·삭제 관리를 위해 관리자 보안 PIN을 입력해주세요.</p>
+      <form onsubmit="submitAdminPin(event)">
+        <input type="password" id="adminPinInput" placeholder="보안 PIN (10010)" maxlength="20" style="width:100%;box-sizing:border-box;padding:12px;border-radius:12px;border:1px solid rgba(45,212,191,.4);background:rgba(7,21,39,.8);color:#fff;text-align:center;font-size:18px;letter-spacing:4px;outline:none;margin-bottom:10px" autofocus autocomplete="current-password">
+        <div id="adminPinErr" style="color:#f87171;font-size:12px;margin-bottom:12px;display:none;font-weight:700"></div>
+        <div style="display:flex;gap:10px">
+          <button type="button" onclick="closeAdminPinModal()" style="flex:1;padding:12px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:transparent;color:#cbd5e1;font-weight:700;cursor:pointer">취소</button>
+          <button type="submit" id="adminPinSubmitBtn" style="flex:1;padding:12px;border-radius:999px;border:none;background:linear-gradient(135deg,#2dd4bf,#38bdf8);color:#042338;font-weight:850;cursor:pointer">잠금 해제 ↗</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- ==================== FOOTER ==================== -->
   <footer class="contact">
@@ -749,7 +801,7 @@
               email: emailVal,
               message: msgVal
             })
-          }).catch(function(){});
+          }).then(function(){ setTimeout(loadInquiries, 500); }).catch(function(){});
         } catch(e){}
 
         // 2. Netlify Form 백업 기록 전송
@@ -780,9 +832,219 @@
           f.style.display = 'none';
           ok.style.display = 'block';
           ok.scrollIntoView({behavior:'smooth', block:'center'});
+          setTimeout(loadInquiries, 800);
         });
       });
     })();
+
+    // ===== 방안 1: 실시간 접수 현황 (소셜프루프 마스킹 + 대표 잠금해제) =====
+    function getAdminPin() {
+      var urlParams = new URLSearchParams(window.location.search);
+      var urlPin = urlParams.get('pin');
+      if (urlPin) {
+        localStorage.setItem('10010_admin_pin', urlPin.trim());
+        return urlPin.trim();
+      }
+      return localStorage.getItem('10010_admin_pin') || '';
+    }
+
+    function toggleAdminAuth() {
+      var pin = getAdminPin();
+      if (pin) {
+        if (confirm('대표 관리자 모드를 잠그고 일반 모드(마스킹)로 전환하시겠습니까?')) {
+          localStorage.removeItem('10010_admin_pin');
+          loadInquiries();
+        }
+      } else {
+        openAdminPinModal();
+      }
+    }
+
+    function openAdminPinModal(err) {
+      var m = document.getElementById('adminPinModal');
+      var errEl = document.getElementById('adminPinErr');
+      var input = document.getElementById('adminPinInput');
+      if (!m) return;
+      m.style.display = 'flex';
+      if (err) {
+        errEl.textContent = err;
+        errEl.style.display = 'block';
+      } else {
+        errEl.style.display = 'none';
+      }
+      input.value = '';
+      setTimeout(function(){ input.focus(); }, 100);
+    }
+
+    function closeAdminPinModal() {
+      var m = document.getElementById('adminPinModal');
+      if (m) m.style.display = 'none';
+    }
+
+    async function submitAdminPin(e) {
+      e.preventDefault();
+      var input = document.getElementById('adminPinInput');
+      var pin = (input.value || '').trim();
+      var btn = document.getElementById('adminPinSubmitBtn');
+      if (!pin) {
+        openAdminPinModal('보안 PIN 번호를 입력해주세요.');
+        return;
+      }
+      btn.disabled = true;
+      btn.textContent = '확인 중...';
+      try {
+        var res = await fetch('https://beakdolyoul.onrender.com/api/inquiries/list', {
+          headers: { 'x-admin-pin': pin }
+        });
+        if (res.status === 401) {
+          openAdminPinModal('❌ 관리자 PIN 번호가 일치하지 않습니다.');
+          btn.disabled = false;
+          btn.textContent = '잠금 해제 ↗';
+          return;
+        }
+        localStorage.setItem('10010_admin_pin', pin);
+        closeAdminPinModal();
+        loadInquiries();
+      } catch (err) {
+        openAdminPinModal('네트워크 연결 오류: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '잠금 해제 ↗';
+      }
+    }
+
+    async function loadInquiries() {
+      var listEl = document.getElementById('sideInquiryList');
+      var countEl = document.getElementById('sideTotalCount');
+      var authBtn = document.getElementById('adminAuthBtn');
+      var privacyNote = document.getElementById('footerPrivacyNote');
+      var noticeText = document.getElementById('inboxNoticeText');
+      if (!listEl) return;
+
+      var pin = getAdminPin();
+      var isAdmin = Boolean(pin);
+
+      // UI 상태 반영
+      if (authBtn) {
+        if (isAdmin) {
+          authBtn.innerHTML = '🔓 관리자 모드 (잠금)';
+          authBtn.style.background = 'rgba(251,191,36,.18)';
+          authBtn.style.borderColor = 'rgba(251,191,36,.4)';
+          authBtn.style.color = '#fbbf24';
+        } else {
+          authBtn.innerHTML = '🔒 대표 관리자 인증';
+          authBtn.style.background = 'rgba(45,212,191,.12)';
+          authBtn.style.borderColor = 'rgba(45,212,191,.35)';
+          authBtn.style.color = 'var(--teal)';
+        }
+      }
+      if (privacyNote) {
+        privacyNote.innerHTML = isAdmin
+          ? '⭐ <b style="color:#2dd4bf">대표 관리자 권한</b>으로 전체 연락처와 원문이 표시 중입니다.'
+          : '🛡️ 개인정보 보호를 위해 고객 정보는 마스킹 처리되어 표시됩니다.';
+      }
+      if (noticeText) {
+        noticeText.textContent = isAdmin
+          ? '접수된 문의를 확인하고 바로 전화·문자·삭제 관리합니다.'
+          : '실시간으로 접수된 협업·진단 신청 현황입니다.';
+      }
+
+      try {
+        var url = isAdmin
+          ? 'https://beakdolyoul.onrender.com/api/inquiries/list'
+          : 'https://beakdolyoul.onrender.com/api/inquiries/public';
+        var headers = isAdmin ? { 'x-admin-pin': pin } : {};
+
+        var res = await fetch(url, { headers: headers });
+        if (isAdmin && res.status === 401) {
+          localStorage.removeItem('10010_admin_pin');
+          return loadInquiries();
+        }
+        var data = await res.json();
+        var items = data.inquiries || [];
+        if (countEl) countEl.textContent = items.length;
+
+        if (items.length === 0) {
+          listEl.innerHTML = '<div style="text-align:center;padding:40px 10px;color:#a8bdcb;font-size:13px">📭 아직 접수된 문의가 없습니다.<br>왼쪽에서 신청하시면 즉시 여기에 등록됩니다.</div>';
+          return;
+        }
+
+        listEl.innerHTML = items.map(function(item){
+          var d = new Date(item.createdAt);
+          var dateStr = isNaN(d) ? (item.createdAt || '-') : d.toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit', month:'numeric', day:'numeric'});
+          var cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
+
+          if (isAdmin) {
+            // [대표 관리자 모드]: 전체 번호, 원문, 전화/문자/메일 및 삭제 버튼
+            return '<div style="background:rgba(7,21,39,.82);border:1px solid rgba(251,191,36,.3);border-radius:14px;padding:14px;transition:.2s">' +
+              '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">' +
+                '<strong style="color:#fff;font-size:14px">👤 ' + escapeHtml(item.name || '신청자') + '</strong>' +
+                '<div style="display:flex;align-items:center;gap:8px">' +
+                  '<span style="font-size:11px;color:#a8bdcb">' + escapeHtml(dateStr) + '</span>' +
+                  '<button type="button" onclick="deleteInquiry(\'' + item.id + '\')" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#f87171;font-size:11px;padding:2px 8px;border-radius:6px;cursor:pointer;font-weight:700" title="이 문의 삭제">삭제 ✕</button>' +
+                '</div>' +
+              '</div>' +
+              '<div style="display:flex;gap:10px;font-size:12px;margin-bottom:8px;color:#38bdf8;flex-wrap:wrap">' +
+                (item.phone ? '<span>📞 ' + escapeHtml(item.phone) + '</span>' : '') +
+                (item.email ? '<span>✉️ ' + escapeHtml(item.email) + '</span>' : '') +
+              '</div>' +
+              (item.message ? '<div style="font-size:12px;color:#dceaf3;background:rgba(0,0,0,.25);padding:8px 10px;border-radius:8px;margin-bottom:10px;white-space:pre-wrap;word-break:break-word">' + escapeHtml(item.message) + '</div>' : '') +
+              '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+                (cleanPhone ? '<a href="tel:' + cleanPhone + '" style="padding:4px 10px;border-radius:999px;background:rgba(45,212,191,.15);border:1px solid rgba(45,212,191,.35);color:#2dd4bf;font-size:11px;font-weight:700;text-decoration:none">📞 전화걸기</a>' : '') +
+                (cleanPhone ? '<a href="sms:' + cleanPhone + '" style="padding:4px 10px;border-radius:999px;background:rgba(45,212,191,.15);border:1px solid rgba(45,212,191,.35);color:#2dd4bf;font-size:11px;font-weight:700;text-decoration:none">💬 문자</a>' : '') +
+                (item.email ? '<a href="mailto:' + item.email + '?subject=' + encodeURIComponent('[100°10 비즈니스] 문의 답변드립니다') + '" style="padding:4px 10px;border-radius:999px;background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.35);color:#38bdf8;font-size:11px;font-weight:700;text-decoration:none">✉️ 답장</a>' : '') +
+              '</div>' +
+            '</div>';
+          } else {
+            // [일반 방문자 모드]: 마스킹 소셜프루프 (안전 & 활성도 증명)
+            return '<div style="background:rgba(7,21,39,.6);border:1px solid rgba(45,212,191,.18);border-radius:14px;padding:14px;transition:.2s">' +
+              '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">' +
+                '<strong style="color:#e2e8f0;font-size:14px">🏢 ' + escapeHtml(item.name || '고객사') + '</strong>' +
+                '<span style="font-size:11px;color:#94a3b8">🕒 ' + escapeHtml(dateStr) + '</span>' +
+              '</div>' +
+              '<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#38bdf8">' +
+                '<span>📞 ' + escapeHtml(item.phone || '010-****-****') + '</span>' +
+                '<span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:6px;background:rgba(34,197,94,.12);color:#4ade80;font-size:11px;font-weight:600">접수 완료</span>' +
+              '</div>' +
+              '<div style="margin-top:8px;font-size:12px;color:#94a3b8;background:rgba(0,0,0,.2);padding:7px 10px;border-radius:8px;display:flex;align-items:center;gap:6px">' +
+                '<span>🔒</span> <span>비공개 상담 신청이 안전하게 접수되었습니다.</span>' +
+              '</div>' +
+            '</div>';
+          }
+        }).join('');
+      } catch (err) {
+        listEl.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#94a3b8;font-size:12px">접수 현황을 불러오는 중입니다...</div>';
+      }
+    }
+
+    async function deleteInquiry(id) {
+      if (!confirm('이 문의 내역을 삭제하시겠습니까?')) return;
+      var pin = getAdminPin();
+      try {
+        var res = await fetch('https://beakdolyoul.onrender.com/api/inquiries/' + id, {
+          method: 'DELETE',
+          headers: { 'x-admin-pin': pin }
+        });
+        if (res.status === 401) {
+          alert('관리자 인증이 만료되었거나 일치하지 않습니다.');
+          localStorage.removeItem('10010_admin_pin');
+          loadInquiries();
+          return;
+        }
+        loadInquiries();
+      } catch (err) {
+        alert('삭제 중 오류가 발생했습니다: ' + err.message);
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, function(m){
+        return {'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[m];
+      });
+    }
+
+    loadInquiries();
+    setInterval(loadInquiries, 15000);
   </script>
 </body>
 </html>
