@@ -673,9 +673,13 @@
      <button type="submit" id="ib-btn" style="padding:15px 28px;border:none;border-radius:999px;font-weight:800;font-size:16px;cursor:pointer;background:linear-gradient(120deg,#ff5722,#ff8f00 55%,#ffca28);color:#0b1020">신청 보내기</button>
      <div style="font-size:13px;color:#8890a6">신청 내용은 담당자(limbackdo@gmail.com)에게 즉시 전달됩니다.</div>
     </form>
-    <div id="ib-ok" style="display:none;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);border-radius:16px;padding:24px">
-     <div style="color:#ffca28;font-size:19px;font-weight:800;margin-bottom:6px">신청이 접수되었습니다 🎉</div>
-     <div style="color:#cdd2e2;font-size:15px">감사합니다. 빠른 시일 안에 연락드리겠습니다 — 100°10 BUSINESS PLATFORM.</div>
+    <div id="ib-ok" style="display:none;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);border-radius:18px;padding:26px;text-align:center">
+     <div style="font-size:2rem;margin-bottom:8px">🎉</div>
+     <div style="color:#ffca28;font-size:20px;font-weight:900;margin-bottom:6px">신청이 안전하게 접수되었습니다!</div>
+     <div style="color:#cdd2e2;font-size:14px;line-height:1.6;margin-bottom:18px">감사합니다. 담당자가 실시간 확인 후 기재해주신 연락처로 신속히 연락드리겠습니다.</div>
+     <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
+       <a id="ib-mailto-link" href="mailto:limbackdo@gmail.com?subject=100도10 협업 문의" style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:999px;background:#2dd4bf;color:#071527;font-weight:800;font-size:13px;text-decoration:none">✉️ 대표 메일로 직접 전송하기</a>
+     </div>
     </div>
    </div>
   </section>
@@ -686,6 +690,7 @@
       <div>
         <strong>100°10 BUSINESS PLATFORM</strong>
         <span>Turning Ideas into Technology · 생각을 기술로</span>
+        <a href="https://beakdolyoul.onrender.com/inquiries.html" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:12px;color:var(--teal);font-weight:700">📋 대표 전용 실시간 문의함 열기 ↗</a>
       </div>
       <div class="footer-apps">
         <!-- 조달레이더 서비스 링크 카드 -->
@@ -781,6 +786,10 @@
           })
         })
         .finally(function(){
+          var mLink = document.getElementById('ib-mailto-link');
+          if (mLink) {
+            mLink.href = 'mailto:limbackdo@gmail.com?subject=' + encodeURIComponent('[100°10 비즈니스] ' + nameVal + '님의 협업 문의') + '&body=' + encodeURIComponent('신청자/회사명: ' + nameVal + '\n연락처: ' + phoneVal + '\n이메일: ' + emailVal + '\n\n문의내용:\n' + (msgVal || '(내용 없음)'));
+          }
           f.style.display = 'none';
           ok.style.display = 'block';
           ok.scrollIntoView({behavior:'smooth', block:'center'});
