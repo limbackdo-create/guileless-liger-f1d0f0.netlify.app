@@ -500,6 +500,7 @@
         <a href="#about">플랫폼 소개</a>
         <a href="#collaboration">협업 방식</a>
         <a class="nav-cta" href="#apply">협업 문의</a>
+        <a class="nav-inbox-btn" href="#inquiry-box" style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:999px;background:rgba(45,212,191,.15);border:1px solid rgba(45,212,191,.42);color:var(--teal);font-weight:800;font-size:.88rem;transition:.2s">📋 실시간 문의함</a>
       </div>
     </nav>
   </header>
@@ -655,31 +656,65 @@
     </section>
   </main>
 
-  <!-- ==================== APPLY INQUIRY FORM ==================== -->
-  <section id="apply" style="background:linear-gradient(180deg,#0b1020,#141b34);color:#fff;font-family:inherit">
-   <div style="max-width:640px;margin:0 auto;padding:72px 24px">
-    <div style="font-size:13px;letter-spacing:2px;font-weight:800;color:#ffca28;text-transform:uppercase;margin-bottom:10px">GET STARTED</div>
-    <h2 style="font-size:30px;font-weight:900;margin:0 0 8px;letter-spacing:-.5px">협업 · 무료 진단 신청</h2>
-    <p style="color:#aeb4ca;margin:0 0 26px;font-size:15px">신청하시면 담당자가 확인 후 빠르게 연락드립니다. 3분이면 충분합니다.</p>
-    <form id='ib-form' method='POST' name='inquiry' data-netlify="true" netlify-honeypot="bot-field" style='display:grid;gap:12px'>
-     <input type="hidden" name="form-name" value="inquiry">
-     <p style="display:none"><label>skip <input name="bot-field"></label></p>
-     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <input name="이름_회사명" id="ib-name" placeholder="이름 / 회사명" required="" style="width:100%;box-sizing:border-box;padding:14px 16px;border:1px solid rgba(255,255,255,.18);border-radius:12px;font-size:15px;font-family:inherit;background:rgba(255,255,255,.06);color:#fff;outline:none">
-      <input name="연락처" id="ib-phone" placeholder="연락처" style="width:100%;box-sizing:border-box;padding:14px 16px;border:1px solid rgba(255,255,255,.18);border-radius:12px;font-size:15px;font-family:inherit;background:rgba(255,255,255,.06);color:#fff;outline:none">
-     </div>
-     <input type="email" name="이메일" id="ib-email" placeholder="이메일" required="" style="width:100%;box-sizing:border-box;padding:14px 16px;border:1px solid rgba(255,255,255,.18);border-radius:12px;font-size:15px;font-family:inherit;background:rgba(255,255,255,.06);color:#fff;outline:none">
-     <textarea name="문의내용" id="ib-msg" rows="4" placeholder="어떤 도움이 필요하신가요? (선택)" style="width:100%;box-sizing:border-box;padding:14px 16px;border:1px solid rgba(255,255,255,.18);border-radius:12px;font-size:15px;font-family:inherit;background:rgba(255,255,255,.06);color:#fff;outline:none;resize:vertical"></textarea>
-     <button type="submit" id="ib-btn" style="padding:15px 28px;border:none;border-radius:999px;font-weight:800;font-size:16px;cursor:pointer;background:linear-gradient(120deg,#ff5722,#ff8f00 55%,#ffca28);color:#0b1020">신청 보내기</button>
-     <div style="font-size:13px;color:#8890a6">신청 내용은 담당자(limbackdo@gmail.com)에게 즉시 전달됩니다.</div>
-    </form>
-    <div id="ib-ok" style="display:none;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);border-radius:18px;padding:26px;text-align:center">
-     <div style="font-size:2rem;margin-bottom:8px">🎉</div>
-     <div style="color:#ffca28;font-size:20px;font-weight:900;margin-bottom:6px">신청이 안전하게 접수되었습니다!</div>
-     <div style="color:#cdd2e2;font-size:14px;line-height:1.6;margin-bottom:18px">감사합니다. 담당자가 실시간 확인 후 기재해주신 연락처로 신속히 연락드리겠습니다.</div>
-     <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
-       <a id="ib-mailto-link" href="mailto:limbackdo@gmail.com?subject=100도10 협업 문의" style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:999px;background:#2dd4bf;color:#071527;font-weight:800;font-size:13px;text-decoration:none">✉️ 대표 메일로 직접 전송하기</a>
-     </div>
+  <!-- ==================== APPLY & INQUIRIES SECTION ==================== -->
+  <section id="apply" style="background:linear-gradient(180deg,#0b1020,#141b34);color:#fff;font-family:inherit;padding:90px 0">
+   <div class="shell" style="max-width:1180px;margin:0 auto;padding:0 24px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:32px;align-items:start">
+      
+      <!-- [왼쪽] 협업 문의 신청 양식 -->
+      <div style="background:rgba(16,39,65,.6);border:1px solid rgba(45,212,191,.25);border-radius:24px;padding:36px 30px;box-shadow:0 20px 60px rgba(0,0,0,.35)">
+        <div style="font-size:13px;letter-spacing:2px;font-weight:800;color:#ffca28;text-transform:uppercase;margin-bottom:8px">GET STARTED</div>
+        <h2 style="font-size:28px;font-weight:900;margin:0 0 8px;letter-spacing:-.5px">협업 · 무료 진단 신청</h2>
+        <p style="color:#aeb4ca;margin:0 0 24px;font-size:14px">신청하시면 확인 후 신속히 연락드립니다.</p>
+        
+        <form id='ib-form' method='POST' name='inquiry' data-netlify="true" netlify-honeypot="bot-field" style='display:grid;gap:12px'>
+         <input type="hidden" name="form-name" value="inquiry">
+         <p style="display:none"><label>skip <input name="bot-field"></label></p>
+         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <input name="이름_회사명" id="ib-name" placeholder="이름 / 회사명 *" required="" style="width:100%;box-sizing:border-box;padding:13px 15px;border:1px solid rgba(255,255,255,.18);border-radius:12px;font-size:14px;font-family:inherit;background:rgba(255,255,255,.06);color:#fff;outline:none">
+          <input name="연락처" id="ib-phone" placeholder="연락처 (전화번호) *" required="" style="width:100%;box-sizing:border-box;padding:13px 15px;border:1px solid rgba(255,255,255,.18);border-radius:12px;font-size:14px;font-family:inherit;background:rgba(255,255,255,.06);color:#fff;outline:none">
+         </div>
+         <input type="email" name="이메일" id="ib-email" placeholder="이메일 주소" style="width:100%;box-sizing:border-box;padding:13px 15px;border:1px solid rgba(255,255,255,.18);border-radius:12px;font-size:14px;font-family:inherit;background:rgba(255,255,255,.06);color:#fff;outline:none">
+         <textarea name="문의내용" id="ib-msg" rows="4" placeholder="어떤 도움이 필요하신가요? (선택)" style="width:100%;box-sizing:border-box;padding:13px 15px;border:1px solid rgba(255,255,255,.18);border-radius:12px;font-size:14px;font-family:inherit;background:rgba(255,255,255,.06);color:#fff;outline:none;resize:vertical"></textarea>
+         <button type="submit" id="ib-btn" style="padding:14px 26px;border:none;border-radius:999px;font-weight:800;font-size:15px;cursor:pointer;background:linear-gradient(120deg,#ff5722,#ff8f00 55%,#ffca28);color:#0b1020">신청 보내기</button>
+         <div style="font-size:12px;color:#8890a6;margin-top:4px">신청 즉시 오른쪽 [실시간 문의함]에 등록됩니다.</div>
+        </form>
+
+        <div id="ib-ok" style="display:none;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);border-radius:18px;padding:24px;text-align:center;margin-top:16px">
+         <div style="font-size:1.8rem;margin-bottom:6px">🎉</div>
+         <div style="color:#ffca28;font-size:18px;font-weight:900;margin-bottom:6px">신청이 안전하게 접수되었습니다!</div>
+         <div style="color:#cdd2e2;font-size:13px;line-height:1.5;margin-bottom:14px">오른쪽 [실시간 문의함]에 즉시 등록되었습니다.</div>
+         <button type="button" onclick="document.getElementById('ib-form').reset();document.getElementById('ib-form').style.display='grid';document.getElementById('ib-ok').style.display='none'" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:#aeb4ca;padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer">추가 문의 작성</button>
+        </div>
+      </div>
+
+      <!-- [오른쪽] 바로 옆 실시간 접수 문의함 -->
+      <div id="inquiry-box" style="background:rgba(16,39,65,.6);border:1px solid rgba(45,212,191,.4);border-radius:24px;padding:36px 30px;box-shadow:0 20px 60px rgba(0,0,0,.35)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="font-size:13px;letter-spacing:2px;font-weight:800;color:var(--teal);text-transform:uppercase">REALTIME INBOX</div>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.35);color:#4ade80;font-size:11px;font-weight:700">
+            <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;display:inline-block"></span> 실시간 감지
+          </span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+          <h2 style="font-size:28px;font-weight:900;letter-spacing:-.5px">실시간 접수 문의함</h2>
+          <span style="font-size:13px;color:var(--muted)">총 <b id="sideTotalCount" style="color:#ffca28">0</b>건</span>
+        </div>
+        <p style="color:#aeb4ca;margin:0 0 20px;font-size:14px">접수된 협업·상담 문의를 즉시 확인하고 바로 소통합니다.</p>
+
+        <!-- 문의 리스트 스크롤 영역 -->
+        <div id="sideInquiryList" style="max-height:430px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding-right:4px">
+          <div style="text-align:center;padding:40px 10px;color:var(--muted);font-size:13px">
+            ⏳ 문의 내역을 불러오는 중...
+          </div>
+        </div>
+
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:11px;color:var(--muted)">15초마다 자동 갱신</span>
+          <a href="https://beakdolyoul.onrender.com/inquiries.html" target="_blank" rel="noopener noreferrer" style="color:var(--cyan);font-size:12px;font-weight:700;text-decoration:none">전용 관리자 창에서 크게 보기 ↗</a>
+        </div>
+      </div>
+
     </div>
    </div>
   </section>
@@ -758,7 +793,7 @@
               email: emailVal,
               message: msgVal
             })
-          }).catch(function(){});
+          }).then(function(){ setTimeout(loadSideInquiries, 500); }).catch(function(){});
         } catch(e){}
 
         // 2. Netlify Form 백업 기록 전송
@@ -786,16 +821,63 @@
           })
         })
         .finally(function(){
-          var mLink = document.getElementById('ib-mailto-link');
-          if (mLink) {
-            mLink.href = 'mailto:limbackdo@gmail.com?subject=' + encodeURIComponent('[100°10 비즈니스] ' + nameVal + '님의 협업 문의') + '&body=' + encodeURIComponent('신청자/회사명: ' + nameVal + '\n연락처: ' + phoneVal + '\n이메일: ' + emailVal + '\n\n문의내용:\n' + (msgVal || '(내용 없음)'));
-          }
           f.style.display = 'none';
           ok.style.display = 'block';
           ok.scrollIntoView({behavior:'smooth', block:'center'});
+          setTimeout(loadSideInquiries, 600);
         });
       });
     })();
+
+    // 실시간 바로 옆 문의함 자동 연동
+    function loadSideInquiries() {
+      var listEl = document.getElementById('sideInquiryList');
+      var countEl = document.getElementById('sideTotalCount');
+      if (!listEl) return;
+      fetch('https://beakdolyoul.onrender.com/api/inquiries/list')
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          var items = data.inquiries || [];
+          if (countEl) countEl.textContent = items.length;
+          if (items.length === 0) {
+            listEl.innerHTML = '<div style="text-align:center;padding:40px 10px;color:#a8bdcb;font-size:13px">📭 아직 접수된 문의가 없습니다.<br>왼쪽에서 신청하시면 즉시 여기에 뜹니다.</div>';
+            return;
+          }
+          listEl.innerHTML = items.map(function(item){
+            var d = new Date(item.createdAt);
+            var dateStr = isNaN(d) ? (item.createdAt || '-') : d.toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit', month:'numeric', day:'numeric'});
+            var cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
+            return '<div style="background:rgba(7,21,39,.75);border:1px solid rgba(45,212,191,.2);border-radius:14px;padding:14px;transition:.2s">' +
+              '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">' +
+                '<strong style="color:#fff;font-size:14px">👤 ' + escapeHtml(item.name || '신청자') + '</strong>' +
+                '<span style="font-size:11px;color:#a8bdcb">' + escapeHtml(dateStr) + '</span>' +
+              '</div>' +
+              '<div style="display:flex;gap:10px;font-size:12px;margin-bottom:8px;color:#38bdf8;flex-wrap:wrap">' +
+                (item.phone ? '<span>📞 ' + escapeHtml(item.phone) + '</span>' : '') +
+                (item.email ? '<span>✉️ ' + escapeHtml(item.email) + '</span>' : '') +
+              '</div>' +
+              (item.message ? '<div style="font-size:12px;color:#dceaf3;background:rgba(0,0,0,.25);padding:8px 10px;border-radius:8px;margin-bottom:10px;white-space:pre-wrap;word-break:break-word">' + escapeHtml(item.message) + '</div>' : '') +
+              '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+                (cleanPhone ? '<a href="tel:' + cleanPhone + '" style="padding:4px 10px;border-radius:999px;background:rgba(45,212,191,.15);border:1px solid rgba(45,212,191,.35);color:#2dd4bf;font-size:11px;font-weight:700;text-decoration:none">📞 전화걸기</a>' : '') +
+                (cleanPhone ? '<a href="sms:' + cleanPhone + '" style="padding:4px 10px;border-radius:999px;background:rgba(45,212,191,.15);border:1px solid rgba(45,212,191,.35);color:#2dd4bf;font-size:11px;font-weight:700;text-decoration:none">💬 문자</a>' : '') +
+                (item.email ? '<a href="mailto:' + item.email + '?subject=' + encodeURIComponent('[100°10 비즈니스] 문의 답변드립니다') + '" style="padding:4px 10px;border-radius:999px;background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.35);color:#38bdf8;font-size:11px;font-weight:700;text-decoration:none">✉️ 답장</a>' : '') +
+              '</div>' +
+            '</div>';
+          }).join('');
+        })
+        .catch(function(){
+          if (listEl) listEl.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#f87171;font-size:12px">문의 내역을 실시간 연동 중입니다...</div>';
+        });
+    }
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, function(m){
+        return {'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[m];
+      });
+    }
+
+    loadSideInquiries();
+    setInterval(loadSideInquiries, 15000);
   </script>
 </body>
 </html>
