@@ -742,13 +742,27 @@
         var emailVal = (document.getElementById('ib-email') || {}).value || '';
         var msgVal = (document.getElementById('ib-msg') || {}).value || '';
 
-        // 1. Netlify Form 백업 기록 전송
+        // 1. Render 클라우드 서버 DB 영구 저장 (조달레이더 백엔드)
+        try {
+          fetch('https://beakdolyoul.onrender.com/api/inquiries', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              name: nameVal,
+              phone: phoneVal,
+              email: emailVal,
+              message: msgVal
+            })
+          }).catch(function(){});
+        } catch(e){}
+
+        // 2. Netlify Form 백업 기록 전송
         try {
           var d = new URLSearchParams(new FormData(f)).toString();
           fetch('/', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:d}).catch(function(){});
         } catch(err){}
 
-        // 2. FormSubmit.co를 통한 지메일(limbackdo@gmail.com) 즉시 다이렉트 전송
+        // 3. FormSubmit.co를 통한 지메일(limbackdo@gmail.com) 즉시 다이렉트 전송
         fetch('https://formsubmit.co/ajax/limbackdo@gmail.com', {
           method: 'POST',
           headers: {
@@ -766,12 +780,7 @@
             '신청일시': new Date().toLocaleString('ko-KR')
           })
         })
-        .then(function(){
-          f.style.display = 'none';
-          ok.style.display = 'block';
-          ok.scrollIntoView({behavior:'smooth', block:'center'});
-        })
-        .catch(function(){
+        .finally(function(){
           f.style.display = 'none';
           ok.style.display = 'block';
           ok.scrollIntoView({behavior:'smooth', block:'center'});
