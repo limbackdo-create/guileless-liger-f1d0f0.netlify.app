@@ -850,7 +850,10 @@
             return '<div style="background:rgba(7,21,39,.75);border:1px solid rgba(45,212,191,.2);border-radius:14px;padding:14px;transition:.2s">' +
               '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">' +
                 '<strong style="color:#fff;font-size:14px">👤 ' + escapeHtml(item.name || '신청자') + '</strong>' +
-                '<span style="font-size:11px;color:#a8bdcb">' + escapeHtml(dateStr) + '</span>' +
+                '<div style="display:flex;align-items:center;gap:8px">' +
+                  '<span style="font-size:11px;color:#a8bdcb">' + escapeHtml(dateStr) + '</span>' +
+                  '<button type="button" onclick="deleteInquiry(\'' + item.id + '\')" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#f87171;font-size:11px;padding:2px 8px;border-radius:6px;cursor:pointer;font-weight:700" title="이 문의 삭제">삭제 ✕</button>' +
+                '</div>' +
               '</div>' +
               '<div style="display:flex;gap:10px;font-size:12px;margin-bottom:8px;color:#38bdf8;flex-wrap:wrap">' +
                 (item.phone ? '<span>📞 ' + escapeHtml(item.phone) + '</span>' : '') +
@@ -867,6 +870,18 @@
         })
         .catch(function(){
           if (listEl) listEl.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#f87171;font-size:12px">문의 내역을 실시간 연동 중입니다...</div>';
+        });
+    }
+
+    function deleteInquiry(id) {
+      if (!confirm('이 문의 내역을 삭제하시겠습니까?')) return;
+      fetch('https://beakdolyoul.onrender.com/api/inquiries/' + id, { method: 'DELETE' })
+        .then(function(r){ return r.json(); })
+        .then(function(){
+          loadSideInquiries();
+        })
+        .catch(function(err){
+          alert('삭제 중 오류가 발생했습니다: ' + err.message);
         });
     }
 
