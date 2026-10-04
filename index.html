@@ -893,7 +893,7 @@
       btn.disabled = true;
       btn.textContent = '확인 중...';
       try {
-        var res = await fetch('https://beakdolyoul.onrender.com/api/inquiries/list', {
+        var res = await fetch('https://beakdolyoul.onrender.com/api/inquiries/list?pin=' + encodeURIComponent(pin), {
           headers: { 'x-admin-pin': pin }
         });
         if (res.status === 401) {
@@ -951,7 +951,7 @@
 
       try {
         var url = isAdmin
-          ? 'https://beakdolyoul.onrender.com/api/inquiries/list'
+          ? ('https://beakdolyoul.onrender.com/api/inquiries/list?pin=' + encodeURIComponent(pin))
           : 'https://beakdolyoul.onrender.com/api/inquiries/public';
         var headers = isAdmin ? { 'x-admin-pin': pin } : {};
 
@@ -1021,7 +1021,7 @@
       if (!confirm('이 문의 내역을 삭제하시겠습니까?')) return;
       var pin = getAdminPin();
       try {
-        var res = await fetch('https://beakdolyoul.onrender.com/api/inquiries/' + id, {
+        var res = await fetch('https://beakdolyoul.onrender.com/api/inquiries/' + id + '?pin=' + encodeURIComponent(pin), {
           method: 'DELETE',
           headers: { 'x-admin-pin': pin }
         });
